@@ -1,4 +1,4 @@
-# Madueke_Sim (6DOF): Open Source ESP32 Controlled Servo Motor Board
+# Madueke_Sim (6DOF): Open Source ESP32 Controlled Servo Motor Board AMC-AASD15A
 
 Welcome to Madueke_Sim (6DOF), an open-source project revolutionizing motion simulation! Our project utilizes the powerful ESP32 microcontroller to control six servo motors, providing a seamless and immersive experience for motion simulation enthusiasts.
 
