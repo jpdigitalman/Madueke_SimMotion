@@ -22,7 +22,7 @@ bool isValidIPAddress(const String &ipAddress);
 bool saveIPAddress(const String &ipAddress);
 String scanner_name;
 
-#include <slidepage.h>
+#include <slidepage2.h>
 
 void serverpage(){
 

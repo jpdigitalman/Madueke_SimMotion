@@ -18,6 +18,7 @@ void serverpage2(){
             html += "<input type='text' class='form-control' id='text" + String(i) + "' value='" + String(pwmValues[i]) + "' onchange='updatePWM(this.value, " + String(i) + ")'>";
             html += "<input type='range' class='form-control-range mt-3' id='range" + String(i) + "' min='-5000' max='5000' value='" + String(pwmValues[i]) + "' onchange='updatePWMRange(this.value, " + String(i) + ")'>";
             html += "<small class='form-text text-muted'>Value: <span id='value" + String(i) + "'>" + String(pwmValues[i]) + "</span></small>";
+            html += "<small class='form-text text-muted' id='status" + String(i) + "'></small>";
             html += "</div></div>";
         }
 
@@ -29,16 +30,39 @@ void serverpage2(){
         html += "function updatePWM(value, channel) {";
         html += "  document.getElementById('range' + channel).value = value;";
         html += "  var xhttp = new XMLHttpRequest();";
+        html += "  xhttp.onreadystatechange = function() {";
+        html += "    if (this.readyState == 4 && this.status == 200) {";
+        html += "      document.getElementById('value' + channel).innerHTML = value;";
+        html += "      if (this.responseText.trim() === 'OK') {";
+        html += "        document.getElementById('status' + channel).innerHTML = 'Channel OK';";
+        html += "        document.getElementById('status' + channel).style.color = 'blue';";
+        html += "      } else {";
+        html += "        document.getElementById('status' + channel).innerHTML = 'Channel Error';";
+        html += "        document.getElementById('status' + channel).style.color = 'red';";
+        html += "      }";
+        html += "    }";
+        html += "  };";
         html += "  xhttp.open('GET', '/update?channel=' + channel + '&value=' + value, true);";
         html += "  xhttp.send();";
-        html += "  document.getElementById('value' + channel).innerHTML = value;";
         html += "}";
         html += "function updatePWMRange(value, channel) {";
         html += "  document.getElementById('text' + channel).value = value;";
         html += "  var xhttp = new XMLHttpRequest();";
+        html += "  xhttp.onreadystatechange = function() {";
+        html += "    if (this.readyState == 4) {";
+        html += "      if (this.status == 200) {";
+        html += "        document.getElementById('value' + channel).innerHTML = value;";
+        html += "        document.getElementById('status' + channel).innerHTML = 'Channel OK';";
+        html += "        $('#status' + channel).removeClass('text-muted').css('color', 'blue')";
+        html += "      } else {";
+        html += "        document.getElementById('value' + channel).innerHTML = value;";
+        html += "        document.getElementById('status' + channel).innerHTML = 'Channel Error';";
+        html += "        $('#status' + channel).removeClass('text-muted').css('color', 'red')";
+        html += "      }";
+        html += "    }";
+        html += "  };";
         html += "  xhttp.open('GET', '/update?channel=' + channel + '&value=' + value, true);";
         html += "  xhttp.send();";
-        html += "  document.getElementById('value' + channel).innerHTML = value;";
         html += "}";
         html += "</script></body></html>";
 
@@ -53,13 +77,15 @@ void serverpage2(){
             int channel = channelParam.toInt();
             int value = valueParam.toInt();
 
-            if (channel >= 0 && channel < 6) {  //if (channel >= 0 && channel < 6 && value >= 0 && value <= 5000)
-                pwmValues[channel] = value;
-                //ledcWrite(channel, map(value, 0, 5000, 0, 255));
+            if (channel >= 0 && channel < 6) {
                 bool ok_rotate = rotateMotorbyStep(channel+1, value);
                 PRINTLINE(!ok_rotate?("Channel " + String(channel+1) + " Error"):("Channel " + String(channel+1) + " Ok"));
-                //rotateMotorbyStep(channel+1, map(value, -5000, 5000, 0, 10000));
-                request->send(200, "text/plain", "OK");
+                if (ok_rotate) {
+                    pwmValues[channel] = value;
+                    request->send(200, "text/plain", "OK");
+                } else {
+                    request->send(500, "text/plain", "Channel Error");
+                }
                 return;
             }
         }
