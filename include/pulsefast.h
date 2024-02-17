@@ -152,7 +152,8 @@ void pr1x()
     phase_a_ct = angle; 
     zero_movement[1] = check_error(1)?1:0;
     if(zero_movement[1] != zero_movement_old[1]){
-        PRINTLINE("Cylinder 1: " + zero_movement[1]?"Error":"Ok");
+        PRINT("Cylinder 1: ");
+        PRINTLINE(zero_movement[1]?"Error":"Ok");
         zero_movement_old[1] = zero_movement[1];
     }
     
@@ -167,7 +168,8 @@ void pr2x()
     phase_b_ct = angle;  
     zero_movement[2] = check_error(2)?1:0;
     if(zero_movement[2] != zero_movement_old[2]){
-        PRINTLINE("Cylinder 2: " + zero_movement[2]?"Error":"Ok");
+        PRINT("Cylinder 2: ");
+        PRINTLINE(zero_movement[2]?"Error":"Ok");
         zero_movement_old[2] = zero_movement[2];
     }
 }
@@ -181,7 +183,8 @@ void pr3x()
     phase_c_ct = angle;
     zero_movement[3] = check_error(3)?1:0;
     if(zero_movement[3] != zero_movement_old[3]){
-        PRINTLINE("Cylinder 3: " + zero_movement[3]?"Error":"Ok");
+        PRINT("Cylinder 3: ");
+        PRINTLINE(zero_movement[3]?"Error":"Ok");
         zero_movement_old[3] = zero_movement[3];
     }
 }
@@ -195,7 +198,8 @@ void pr4x()
     phase_d_ct = angle;
     zero_movement[4] = check_error(4)?1:0;
     if(zero_movement[4] != zero_movement_old[4]){
-        PRINTLINE("Cylinder 4: " + zero_movement[4]?"Error":"Ok");
+        PRINT("Cylinder 4: ");
+        PRINTLINE(zero_movement[4]?"Error":"Ok");
         zero_movement_old[4] = zero_movement[4];
     }
 }
@@ -209,7 +213,8 @@ void pr5x()
     phase_e_ct = angle;
     zero_movement[5] = check_error(5)?1:0;
     if(zero_movement[5] != zero_movement_old[5]){
-        PRINTLINE("Cylinder 5: " + zero_movement[5]?"Error":"Ok");
+        PRINT("Cylinder 5: ");
+        PRINTLINE(zero_movement[4]?"Error":"Ok");
         zero_movement_old[5] = zero_movement[5];
     }
 }
@@ -223,7 +228,8 @@ void pr6x()
     phase_f_ct = angle;
     zero_movement[6] = check_error(6)?1:0;
     if(zero_movement[6] != zero_movement_old[6]){
-        PRINTLINE("Cylinder 6: " + zero_movement[6]?"Error":"Ok");
+        PRINT("Cylinder 6: ");
+        PRINTLINE(zero_movement[6]?"Error":"Ok");
         zero_movement_old[6] = zero_movement[6];
     }
 }
@@ -239,41 +245,48 @@ void pulse_refresh(){
 }
 
 
-void rotateMotorbyStep(int motor, int steps){    
+bool rotateMotorbyStep(int motor, int steps){    
     PRINTLINE("Stepping Servo " + String(motor) + " to " + String(steps));
     //int pulse_hz = map(speed, 0, 100, 0, yaw_max_frequency);
     if(motor == 1){
         if(check_error(1))
-            return;
+            return false;
         pr1->move(steps);
+        return true;
     }
     else if(motor == 2){
         if(check_error(2))
-            return;
+            return false;
         pr2->moveTo(steps);
+        return true;
     }
     else if(motor == 3){
         if(check_error(3))
-            return;
+            return false;
         pr3->moveTo(steps);
+        return true;
     }
     else if(motor == 4){
         if(check_error(4))
-            return;
+            return false;
         pr4->moveTo(steps);
+        return true;
     } 
     else if(motor == 5){
         if(check_error(5))
-            return;
+            return false;
         pr5->moveTo(steps);
+        return true;
     } 
     else if(motor == 6){
         if(check_error(6))
-            return;
+            return false;
         pr6->moveTo(steps);
+        return true;
     } 
     else{
         PRINTLINE("Motor not exist");
+        return false;
     }     
 }
 

@@ -70,5 +70,5 @@ void buzzBeep(){
 }
 
 void NP(){
-
+    return;
 }
