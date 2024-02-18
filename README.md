@@ -1,4 +1,4 @@
-# Madueke_Sim (6DOF): Open Source ESP32 Controlled Servo Motor Board AMC-AASD15A
+# Madueke_Sim (6DOF): Open Source ESP32 Controlled Servo Motor Board (AMC-AASD15A)
 
 ![Madueke_Sim Schematic](Hardware/BOARD.png)
 
@@ -16,5 +16,5 @@ Welcome to Madueke_Sim (6DOF), an open-source project revolutionizing motion sim
 
 - **Sample Web Application**: Experience our motion simulation firsthand with our free source code for the firmware, which includes a sample web application. Test all motor movements effortlessly and explore the capabilities of Madueke_Sim (6DOF).
 
-- **Advanced Firmware**: For enthusiasts seeking even more features, our advanced firmware, available upon request, supports popular motion simulation platforms like Simtools and FlyTP Mover. Additionally, it includes built-in support for a range of games, from F1-2022 to Roller-Coaster Games, elevating your simulation experience to new heights.
+- **Advanced Firmware**: For enthusiasts seeking even more features, our advanced firmware, available upon request, supports popular motion simulation platforms like Simtools. Additionally, it includes built-in support for a range of games, from F1-2022 to Roller-Coaster Games, elevating your simulation experience to new heights.
 
