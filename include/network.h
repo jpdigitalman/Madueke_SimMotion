@@ -121,9 +121,12 @@ bool isValidIPAddress(const String &ipAddress) {
   IPAddress ip;
   return ip.fromString(ipAddress);
 }
+
+/// @brief 
+/// @return 
 String getSavedIPAddress() {
   if (startPreferences()) {
-    // Retrieve the saved IP address from preferences
+    //Retrieve the saved IP address from preferences
     String savedIP = preferences.getString(preferencesKey, "No saved IP address");
     endPreferences();
     PRINTLINE("Acquired Server IP: " + savedIP);
@@ -133,3 +136,4 @@ String getSavedIPAddress() {
   }
   return "Error accessing preferences";
 }
+

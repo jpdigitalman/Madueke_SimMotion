@@ -19,6 +19,8 @@ void setup() {
   pulse_setup();
 
   networksetup();
+  
+  home_return();
 
 }
 
@@ -28,6 +30,8 @@ void loop() {
   //buzzBeep();
 
   pulse_refresh();
-  
+
+  home_return();
+    
 }
 

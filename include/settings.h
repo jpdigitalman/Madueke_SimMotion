@@ -53,3 +53,5 @@ float phase_a_ct, oldphase_a_ct, phase_b_ct, oldphase_b_ct, phase_c_ct, oldphase
 
 int zero_movement[7];
 int zero_movement_old[7];
+bool errorflag = true; //start with error flag on and reset automatically after initialization
+bool force = true;

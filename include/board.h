@@ -1,11 +1,11 @@
 
-
 /**
  * @brief 
  * 
  */
 void ledFlash();
 void buzzBeep();
+
 
 void initPins(){
     pinMode(LED, OUTPUT);
@@ -41,12 +41,14 @@ void initPins(){
     pinMode(CON_DIR_6, INPUT);
 }
 
+/// @brief 
 void initSerial(){
     Serial.begin(115200);  
     delay(250);
     Serial.println("SimMotion Startup..");
 }
 
+/// @brief 
 void ledFlash() {
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
@@ -56,6 +58,7 @@ void ledFlash() {
   }
 }
 
+/// @brief beep
 void buzzBeep(){
   unsigned long currentMillis = millis();
   if (currentMillis - buzzerPreviousMillis >= buzzerInterval) {
@@ -69,6 +72,8 @@ void buzzBeep(){
   }
 }
 
+/// @brief do nothing
 void NP(){
     return;
 }
+
