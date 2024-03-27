@@ -10,6 +10,7 @@ unsigned long interval = 0;  // interval at which to blink (initialized to 0 for
 unsigned long buzzerPreviousMillis = 0;
 unsigned long buzzerInterval = 0;
 
+#define full_step 1000  //number of full cylinder steps
 #define LED 15
 #define buzzerPin 26
 

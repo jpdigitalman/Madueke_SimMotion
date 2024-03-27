@@ -58,17 +58,23 @@ void ledFlash() {
   }
 }
 
+void buzzON(){
+  digitalWrite(buzzerPin, HIGH);
+}
+void buzzOFF(){
+  digitalWrite(buzzerPin, LOW);
+}
 /// @brief beep
 void buzzBeep(){
   unsigned long currentMillis = millis();
   if (currentMillis - buzzerPreviousMillis >= buzzerInterval) {
     buzzerPreviousMillis = currentMillis;
-    buzzerInterval = random(500, 5000);  // 
+    buzzerInterval = random(500, 1000);  // 
 
     // Activate the buzzer for a short duration
-    digitalWrite(buzzerPin, HIGH);
+    buzzON();
     delay((int)buzzerInterval);  //
-    digitalWrite(buzzerPin, LOW);
+    buzzOFF();
   }
 }
 

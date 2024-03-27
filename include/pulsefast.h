@@ -94,11 +94,44 @@ void pulse_setup() {
    }
 }
 
+bool check_movement(int pr){
+    if(pr==1){
+        if(pr1->isRunning())
+            return true;
+        return false;
+    }
+    else if(pr==2){
+        if(pr2->isRunning())
+            return true;
+        return false;
+    }
+    else if(pr==3){
+        if(pr3->isRunning())
+            return true;
+        return false;
+    }
+    else if(pr==4){
+        if(pr4->isRunning())
+            return true;
+        return false;
+    }
+    else if(pr==5){
+        if(pr5->isRunning())
+            return true;
+        return false;
+    }
+    else if(pr==6){
+        if(pr6->isRunning())
+            return true;
+        return false;
+    }
+}
+
 bool check_error(int pr){
     //active low alarm
     if(pr == 1){        
         if(digitalRead(alarm_1) == LOW){
-            pr1->isRunning()? pr1->forceStop() : NP();
+            check_movement(pr)? pr1->forceStop() : NP();
             errorflag = true;
             return true;
         }
@@ -107,7 +140,7 @@ bool check_error(int pr){
     }
     else if(pr == 2){
         if(digitalRead(alarm_2) == LOW){
-            pr2->isRunning()? pr2->forceStop() : NP();
+            check_movement(pr)? pr2->forceStop() : NP();
             errorflag = true;
             return true;
         }
@@ -116,7 +149,7 @@ bool check_error(int pr){
     }
     else if(pr == 3){
         if(digitalRead(alarm_3) == LOW){
-            pr3->isRunning()? pr3->forceStop() : NP();
+            check_movement(pr)? pr3->forceStop() : NP();
             errorflag = true;
             return true;
         }
@@ -125,7 +158,7 @@ bool check_error(int pr){
     }
     else if(pr == 4){
         if(digitalRead(alarm_4) == LOW){
-            pr4->isRunning()? pr4->forceStop() : NP();
+            check_movement(pr)? pr4->forceStop() : NP();
             errorflag = true;
             return true;
         }
@@ -134,7 +167,7 @@ bool check_error(int pr){
     }
     else if(pr == 5){
         if(digitalRead(alarm_5) == LOW){
-            pr5->isRunning()? pr5->forceStop() : NP();
+            check_movement(pr)? pr5->forceStop() : NP();
             errorflag = true;
             return true;
         }
@@ -143,7 +176,7 @@ bool check_error(int pr){
     }
     else if(pr == 6){
         if(digitalRead(alarm_6) == LOW){
-            pr6->isRunning()? pr6->forceStop() : NP();   
+            check_movement(pr)? pr6->forceStop() : NP();   
             errorflag = true;       
             return true;
         }
@@ -376,9 +409,9 @@ void turn_MotorUp(int motor, int speed, bool force){
     }
 }
 
-/// @brief 
-/// @param motor 
-/// @param speed 
+/// @brief Reverses selected motor if posible. otherwise, does nothing
+/// @param motor Select which motor to turn
+/// @param speed Speed of the motor
 /// @param force : force motor movement/ignore error
 void turn_MotorDown(int motor, int speed,  bool force){
     if(motor == 1){
@@ -493,7 +526,7 @@ void home_return(){
 
     delay(2000);
 
-    //return home
+    //push all motors down
     for(int i = 1; i<7; i++){
         turn_MotorDown(i, 50, force);
     }
@@ -506,5 +539,27 @@ void home_return(){
         err += check_error(i);
     }
     PRINTLINE(err?("Motor Reset Error: ") : ("No Error: Reset Success"));
+
+    //return all to home - mid position
+    for(int i = 1; i<7; i++){
+        rotateMotorbyStep(i, full_step/2);
+    }
+
+    //wait for all motors to stop moving
+    PRINTLINE("WAITING FOR STOP SIGNAL");
+    while (true)
+    {
+        for(int i = 1; i<7; i++){
+            err += check_movement(i);
+        }
+        if(!err){
+            buzzOFF();
+            break;
+        }
+        err=0;
+        buzzON();        
+    }
+    buzzBeep(); //ready beep
+
   }
 }
