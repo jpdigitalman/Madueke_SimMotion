@@ -481,7 +481,8 @@ void turn_MotorDown(int motor, int speed,  bool force){
 	    pr6->runBackward();
     }
 }
-
+/// @brief 
+/// @param motor 
 void stopMotor(int motor){
     if(motor == 1){  
         pr1->setSpeedInHz(0);
@@ -515,9 +516,9 @@ void stopMotor(int motor){
     }
 }
 
-
-/// @brief 
-void home_return(){
+/// @brief Moves all motors to middle home position if error flag is true
+/// @return Returns true only if all errors are cancelled and motors returns to home
+bool home_return(){
   if(errorflag){
     //stop all movement
     for(int i = 1; i<7; i++){
@@ -540,6 +541,10 @@ void home_return(){
     }
     PRINTLINE(err?("Motor Reset Error: ") : ("No Error: Reset Success"));
 
+    if(err){
+        return false;
+    }
+
     //return all to home - mid position
     for(int i = 1; i<7; i++){
         rotateMotorbyStep(i, full_step/2);
@@ -557,9 +562,20 @@ void home_return(){
             break;
         }
         err=0;
-        buzzON();        
+        buzzON(); 
     }
     buzzBeep(); //ready beep
 
+    //check and initialize all errors again
+    for(int i = 1; i<7; i++){
+        err += check_error(i);
+    }
+    if(err){
+        return false;
+    }
+
+    return true; 
   }
+
+  return false;
 }
